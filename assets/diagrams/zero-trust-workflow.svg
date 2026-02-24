@@ -1,0 +1,137 @@
+# Zero-Trust Governance Workflow | 零信任治理工作流
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <!-- Background -->
+  <rect width="900" height="700" fill="#0a0a0f"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    Zero-Trust Governance: Three-Power Separation | 零信任治理：三权分立
+  </text>
+  
+  <!-- Architect (Top) | 架构师 -->
+  <g transform="translate(350, 80)">
+    <rect x="0" y="0" width="200" height="80" fill="#ffd700" fill-opacity="0.2" stroke="#ffd700" stroke-width="3" rx="12"/>
+    
+    <text x="100" y="30" text-anchor="middle" fill="#ffd700" font-size="16" font-weight="bold">ARCHITECT</text>
+    
+    <text x="100" y="50" text-anchor="middle" fill="#ffd700" font-size="14">架构师</text>
+    
+    <text x="100" y="70" text-anchor="middle" fill="#aaaaaa" font-size="10">Issues instruction with skepticism weight</text>
+  </g>
+  
+  <!-- Arrow down -->
+  <line x1="450" y1="160" x2="450" y2="190" stroke="#ffffff" stroke-width="2" stroke-dasharray="5,5"/>
+  <polygon points="450,195 445,185 455,185" fill="#ffffff"/>
+  
+  <!-- Three Agents (Middle) | 三个Agent -->
+  
+  <!-- Execution Agent | 执行Agent -->
+  <g transform="translate(50, 200)">
+    <rect x="0" y="0" width="250" height="150" fill="#1a2a3e" stroke="#4a9eff" stroke-width="2" rx="8"/>
+    
+    <text x="125" y="30" text-anchor="middle" fill="#4a9eff" font-size="14" font-weight="bold">1. EXECUTION AGENT</text>
+    
+    <text x="125" y="50" text-anchor="middle" fill="#4a9eff" font-size="12">执行Agent</text>
+    
+    <text x="125" y="80" text-anchor="middle" fill="#ffffff" font-size="11">• Receives instruction</text>
+    
+    <text x="125" y="95" text-anchor="middle" fill="#ffffff" font-size="11">• Produces Result A</text>
+    
+    <text x="125" y="110" text-anchor="middle" fill="#ff6b6b" font-size="10">✗ No access to Audit Agent</text>
+    
+    <text x="125" y="130" text-anchor="middle" fill="#888888" font-size="9">隔离执行：禁止访问审计信息</text>
+  </g>
+  
+  <!-- Audit Agent | 审计Agent -->
+  <g transform="translate(325, 200)">
+    <rect x="0" y="0" width="250" height="150" fill="#1a2a1a" stroke="#00d4aa" stroke-width="2" rx="8"/>
+    
+    <text x="125" y="30" text-anchor="middle" fill="#00d4aa" font-size="14" font-weight="bold">2. AUDIT AGENT</text>
+    
+    <text x="125" y="50" text-anchor="middle" fill="#00d4aa" font-size="12">审计Agent</text>
+    
+    <text x="125" y="80" text-anchor="middle" fill="#ffffff" font-size="11">• Independent verification</text>
+    
+    <text x="125" y="95" text-anchor="middle" fill="#ffffff" font-size="11">• Produces Logic Path B</text>
+    
+    <text x="125" y="110" text-anchor="middle" fill="#ff6b6b" font-size="10">✗ No access to Result A</text>
+    
+    <text x="125" y="130" text-anchor="middle" fill="#888888" font-size="9">非对称审计：独立验证，信息隔离</text>
+  </g>
+  
+  <!-- Strategy Agent | 策略Agent -->
+  <g transform="translate(600, 200)">
+    <rect x="0" y="0" width="250" height="150" fill="#2a1a1a" stroke="#9b59b6" stroke-width="2" rx="8"/>
+    
+    <text x="125" y="30" text-anchor="middle" fill="#9b59b6" font-size="14" font-weight="bold">3. STRATEGY AGENT</text>
+    
+    <text x="125" y="50" text-anchor="middle" fill="#9b59b6" font-size="12">策略Agent</text>
+    
+    <text x="125" y="80" text-anchor="middle" fill="#ffffff" font-size="11">• Compares A vs B</text>
+    
+    <text x="125" y="95" text-anchor="middle" fill="#ffffff" font-size="11">• Calculates match score</text>
+    
+    <text x="125" y="110" text-anchor="middle" fill="#ffffff" font-size="11">• Determines action</text>
+    
+    <text x="125" y="130" text-anchor="middle" fill="#888888" font-size="9">真值对比：逻辑重合度计算</text>
+  </g>
+  
+  <!-- Arrows to Comparison | 箭头到对比 -->
+  <line x1="175" y1="350" x2="400" y2="400" stroke="#4a9eff" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="250" y="380" fill="#4a9eff" font-size="9">Result A</text>
+  
+  <line x1="450" y1="350" x2="450" y2="400" stroke="#00d4aa" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="460" y="380" fill="#00d4aa" font-size="9">Logic B</text>
+  
+  <line x1="725" y1="350" x2="500" y2="400" stroke="#9b59b6" stroke-width="2"/>
+  
+  <!-- Comparison Box | 对比框 -->
+  <g transform="translate(300, 400)">
+    <rect x="0" y="0" width="300" height="120" fill="#1a1a2e" stroke="#ffffff" stroke-width="2" rx="8"/>
+    
+    <text x="150" y="25" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">TRUTH COMPARISON | 真值对比</text>
+    
+    <text x="150" y="50" text-anchor="middle" fill="#aaaaaa" font-size="11">Match Score = Logic Overlap (A, B)</text>
+    
+    <text x="150" y="70" text-anchor="middle" fill="#00d4aa" font-size="10">≥95%: Auto-submit | 85-95%: Mark</text>
+    
+    <text x="150" y="85" text-anchor="middle" fill="#ffd700" font-size="10"><85%: Manual Review | <70%: Alert</text>
+    
+    <text x="150" y="105" text-anchor="middle" fill="#888888" font-size="9">匹配度决定审计系数与后续动作</text>
+  </g>
+  
+  <!-- Arrow to Output | 箭头到输出 -->
+  <line x1="450" y1="520" x2="450" y2="550" stroke="#ffffff" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Output | 输出 -->
+  <g transform="translate(300, 550)">
+    <rect x="0" y="0" width="300" height="80" fill="#00d4aa" fill-opacity="0.2" stroke="#00d4aa" stroke-width="3" rx="8"/>
+    
+    <text x="150" y="30" text-anchor="middle" fill="#00d4aa" font-size="14" font-weight="bold">OUTPUT | 输出</text>
+    
+    <text x="150" y="50" text-anchor="middle" fill="#ffffff" font-size="11">Final Result + Audit Coefficient</text>
+    
+    <text x="150" y="68" text-anchor="middle" fill="#aaaaaa" font-size="10">最终结果 + 审计系数记录</text>
+  </g>
+  
+  <!-- Side Note | 侧边注释 -->
+  <g transform="translate(50, 550)">
+    <rect x="0" y="0" width="220" height="80" fill="#2a2a3e" stroke="#888888" stroke-width="1" rx="6"/>
+    
+    <text x="110" y="25" text-anchor="middle" fill="#888888" font-size="10" font-weight="bold">KEY PRINCIPLE | 核心原则</text>
+    
+    <text x="110" y="45" text-anchor="middle" fill="#aaaaaa" font-size="9">Asymmetric Audit: No info sharing</text>
+    
+    <text x="110" y="60" text-anchor="middle" fill="#aaaaaa" font-size="9">非对称审计：执行与审计信息隔离</text>
+  </g>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff"/>
+    </marker>
+  </defs>
+  
+</svg>
