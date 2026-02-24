@@ -1,0 +1,57 @@
+name: Bug Report | 问题反馈
+description: Report an issue or error in the whitepaper | 报告白皮书中的问题或错误
+title: "[BUG] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the Singularity Civilization Manifesto!
+        感谢您帮助改进《奇点文明》白皮书！
+        
+  - type: input
+    id: location
+    attributes:
+      label: Location | 位置
+      description: Where is the issue? (Section/Appendix/Line) | 问题在哪里？（章节/附录/行号）
+      placeholder: "e.g., Section 3.3, Appendix E, Line 45"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: description
+    attributes:
+      label: Description | 描述
+      description: Describe the issue | 描述问题
+      placeholder: "Please describe the issue in detail... | 请详细描述问题..."
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity | 严重程度
+      options:
+        - Critical | 严重 (逻辑错误/事实错误)
+        - Major | 主要 (概念不清/表述模糊)
+        - Minor | 次要 (错别字/格式问题)
+        - Suggestion | 建议 (改进意见)
+    validations:
+      required: true
+      
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Fix | 建议修正
+      description: How would you fix this? | 您建议如何修正？
+      placeholder: "Your suggestion... | 您的建议..."
+      
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation | 确认
+      options:
+        - label: I have verified this issue exists in the latest version | 我已确认最新版本中存在此问题
+          required: true
+        - label: I have searched existing issues to avoid duplicates | 我已搜索现有问题避免重复
+          required: true

@@ -1,0 +1,146 @@
+# DTSP Architecture | DTSP三层架构
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700">
+  <!-- Background -->
+  <rect width="900" height="700" fill="#0a0a0f"/>
+  
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" fill="#ffffff" font-size="22" font-weight="bold">
+    DTSP: Digital Twin Sync Protocol | 虚实映射协议
+  </text>
+  
+  <!-- Physical World (Left) | 物理世界 -->
+  <g transform="translate(50, 100)">
+    <rect x="0" y="0" width="200" height="500" fill="#1a1a2e" stroke="#4a9eff" stroke-width="3" rx="12"/>
+    
+    <text x="100" y="40" text-anchor="middle" fill="#4a9eff" font-size="20" font-weight="bold">PHYSICAL</text>
+    <text x="100" y="65" text-anchor="middle" fill="#4a9eff" font-size="18">物理世界</text>
+    <text x="100" y="85" text-anchor="middle" fill="#4a9eff" font-size="14">(Atomic Dimension)</text>
+    <text x="100" y="105" text-anchor="middle" fill="#4a9eff" font-size="14">原子维度</text>
+    
+    <!-- Physical Elements -->
+    <rect x="25" y="140" width="150" height="50" fill="#2a3a4e" stroke="#4a9eff" stroke-width="1" rx="6"/>
+    <text x="100" y="170" text-anchor="middle" fill="#ffffff" font-size="12">Sensors | 传感器</text>
+    
+    <rect x="25" y="210" width="150" height="50" fill="#2a3a4e" stroke="#4a9eff" stroke-width="1" rx="6"/>
+    <text x="100" y="240" text-anchor="middle" fill="#ffffff" font-size="12">IoT Devices | 物联网</text>
+    
+    <rect x="25" y="280" width="150" height="50" fill="#2a3a4e" stroke="#4a9eff" stroke-width="1" rx="6"/>
+    <text x="100" y="310" text-anchor="middle" fill="#ffffff" font-size="12">Robots | 机器人</text>
+    
+    <rect x="25" y="350" width="150" height="50" fill="#2a3a4e" stroke="#4a9eff" stroke-width="1" rx="6"/>
+    <text x="100" y="380" text-anchor="middle" fill="#ffffff" font-size="12">Physical Assets | 实体资产</text>
+    
+    <!-- Root of Trust -->
+    <rect x="25" y="430" width="150" height="50" fill="#ffd700" fill-opacity="0.2" stroke="#ffd700" stroke-width="2" rx="6"/>
+    <text x="100" y="460" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">RoT: Physical Key</text>
+  </g>
+  
+  <!-- Three Layers (Center) | 三层架构 -->
+  <g transform="translate(300, 100)">
+    
+    <!-- Layer 1: P2V -->
+    <rect x="0" y="0" width="300" height="140" fill="#1a2a1a" stroke="#00d4aa" stroke-width="2" rx="8"/>
+    <text x="150" y="30" text-anchor="middle" fill="#00d4aa" font-size="16" font-weight="bold">LAYER 1: P2V</text>
+    <text x="150" y="55" text-anchor="middle" fill="#00d4aa" font-size="14">感知对映层</text>
+    
+    <text x="150" y="85" text-anchor="middle" fill="#888888" font-size="11">Physical → Virtual | 物理→虚拟</text>
+    <text x="150" y="105" text-anchor="middle" fill="#aaaaaa" font-size="10">High-precision sensors, multimodal</text>
+    <text x="150" y="120" text-anchor="middle" fill="#aaaaaa" font-size="10">高精度传感器、多模态语义转化</text>
+    
+    <!-- Arrow -->
+    <polygon points="150,145 140,155 160,155" fill="#00d4aa"/>
+    
+    <!-- Layer 2: V2P -->
+    <rect x="0" y="160" width="300" height="140" fill="#1a1a2a" stroke="#9b59b6" stroke-width="2" rx="8"/>
+    
+    <text x="150" y="190" text-anchor="middle" fill="#9b59b6" font-size="16" font-weight="bold">LAYER 2: V2P</text>
+    
+    <text x="150" y="215" text-anchor="middle" fill="#9b59b6" font-size="14">逻辑执行层</text>
+    
+    <text x="150" y="245" text-anchor="middle" fill="#888888" font-size="11">Virtual → Physical | 虚拟→物理</text>
+    
+    <text x="150" y="265" text-anchor="middle" fill="#aaaaaa" font-size="10">Embodied intelligence, remote audit</text>
+    <text x="150" y="280" text-anchor="middle" fill="#aaaaaa" font-size="10">具身智能接口、远程执行审计</text>
+    
+    <!-- Arrow -->
+    <polygon points="150,305 140,315 160,315" fill="#9b59b6"/>
+    
+    
+    <!-- Layer 3: Consistency -->
+    <rect x="0" y="320" width="300" height="140" fill="#2a1a1a" stroke="#ff6b6b" stroke-width="2" rx="8"/>
+    
+    <text x="150" y="350" text-anchor="middle" fill="#ff6b6b" font-size="16" font-weight="bold">LAYER 3: CONSISTENCY</text>
+    
+    <text x="150" y="375" text-anchor="middle" fill="#ff6b6b" font-size="14">一致性同步层</text>
+    
+    <text x="150" y="405" text-anchor="middle" fill="#888888" font-size="11">Zero-drift synchronization | 零偏移同步</text>
+    
+    <text x="150" y="425" text-anchor="middle" fill="#aaaaaa" font-size="10">Logic hash verification, delay compensation</text>
+    <text x="150" y="440" text-anchor="middle" fill="#aaaaaa" font-size="10">逻辑哈希校验、延迟补偿算法</text>
+    
+  </g>
+  
+  <!-- Metaverse (Right) | 元宇宙 -->
+  <g transform="translate(650, 100)">
+    <rect x="0" y="0" width="200" height="500" fill="#1a1a2e" stroke="#ff6b6b" stroke-width="3" rx="12"/>
+    
+    <text x="100" y="40" text-anchor="middle" fill="#ff6b6b" font-size="20" font-weight="bold">METAVERSE</text>
+    <text x="100" y="65" text-anchor="middle" fill="#ff6b6b" font-size="18">元宇宙</text>
+    
+    <text x="100" y="85" text-anchor="middle" fill="#ff6b6b" font-size="14">(Bit Dimension)</text>
+    <text x="100" y="105" text-anchor="middle" fill="#ff6b6b" font-size="14">比特维度</text>
+    
+    <!-- Metaverse Elements -->
+    <rect x="25" y="140" width="150" height="50" fill="#3e2a3e" stroke="#ff6b6b" stroke-width="1" rx="6"/>
+    <text x="100" y="170" text-anchor="middle" fill="#ffffff" font-size="12">Digital Twin | 数字孪生</text>
+    
+    <rect x="25" y="210" width="150" height="50" fill="#3e2a3e" stroke="#ff6b6b" stroke-width="1" rx="6"/>
+    <text x="100" y="240" text-anchor="middle" fill="#ffffff" font-size="12">Agent Ecosystem | Agent生态</text>
+    
+    <rect x="25" y="280" width="150" height="50" fill="#3e2a3e" stroke="#ff6b6b" stroke-width="1" rx="6"/>
+    <text x="100" y="310" text-anchor="middle" fill="#ffffff" font-size="12">Simulation | 模拟仿真</text>
+    
+    <rect x="25" y="350" width="150" height="50" fill="#3e2a3e" stroke="#ff6b6b" stroke-width="1" rx="6"/>
+    <text x="100" y="380" text-anchor="middle" fill="#ffffff" font-size="12">Virtual Economy | 虚拟经济</text>
+    
+    <!-- Cross-Dimensional Anchor -->
+    <rect x="25" y="430" width="150" height="50" fill="#ffd700" fill-opacity="0.2" stroke="#ffd700" stroke-width="2" rx="6"/>
+    <text x="100" y="460" text-anchor="middle" fill="#ffd700" font-size="11" font-weight="bold">Sovereignty Anchor</text>
+  </g>
+  
+  <!-- Connection Arrows -->
+  <g>
+    <!-- Left to Center -->
+    <line x1="250" y1="200" x2="300" y2="170" stroke="#00d4aa" stroke-width="3" marker-end="url(#arrowhead)"/>
+    
+    <!-- Center to Right -->
+    <line x1="600" y1="240" x2="650" y2="200" stroke="#9b59b6" stroke-width="3" marker-end="url(#arrowhead)"/>
+    
+    <!-- Right to Center (feedback) -->
+    <line x1="650" y1="400" x2="600" y2="380" stroke="#ff6b6b" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+    
+    <!-- Center to Left (feedback) -->
+    <line x1="300" y1="400" x2="250" y2="420" stroke="#4a9eff" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  </g>
+  
+  <!-- Bottom Legend -->
+  <rect x="200" y="630" width="500" height="50" fill="#1a1a2e" stroke="#ffffff" stroke-width="1" rx="8"/>
+  
+  <text x="450" y="650" text-anchor="middle" fill="#ffffff" font-size="12">
+    Cross-Dimensional Sovereignty Anchoring | 跨维度主权锚定
+  </text>
+  
+  <text x="450" y="670" text-anchor="middle" fill="#888888" font-size="10">
+    Physical Private Key (RoT) → Atomic + Bit Dimensions | 物理私钥 → 原子+比特双维度
+  </text>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ffffff"/>
+    </marker>
+  </defs>
+  
+</svg>
