@@ -3,457 +3,715 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦞 Agent Team 工作监控中心 | Anti-Slacking System</title>
+    <title>【NEON CITY】Agent Team 赛博任务中心 | 反摸鱼系统 v2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #0a0a0f; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        .glass {
-            background: rgba(20, 20, 30, 0.8);
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff41;
+            --neon-red: #ff003c;
+            --neon-yellow: #ffff00;
+            --dark-bg: #0a0a0f;
+            --panel-bg: rgba(10, 10, 15, 0.95);
+        }
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        .cyber-font {
+            font-family: 'Orbitron', monospace;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .neon-border {
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 
+                0 0 10px var(--neon-cyan),
+                inset 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+        
+        .neon-border-pink {
+            border: 2px solid var(--neon-pink);
+            box-shadow: 
+                0 0 10px var(--neon-pink),
+                inset 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+        
+        .neon-border-green {
+            border: 2px solid var(--neon-green);
+            box-shadow: 
+                0 0 10px var(--neon-green),
+                inset 0 0 10px rgba(0, 255, 65, 0.1);
+        }
+        
+        .neon-border-red {
+            border: 2px solid var(--neon-red);
+            box-shadow: 
+                0 0 10px var(--neon-red),
+                inset 0 0 10px rgba(255, 0, 60, 0.1);
+        }
+        
+        .neon-text {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .neon-text-pink {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+        }
+        
+        .neon-text-green {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .neon-text-red {
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red);
+        }
+        
+        .cyber-panel {
+            background: var(--panel-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        .agent-card {
-            transition: all 0.3s ease;
+        
+        .cyber-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            animation: scanline 3s linear infinite;
         }
-        .agent-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
-        .pulse-dot {
-            animation: pulse 2s infinite;
+        
+        .glitch {
+            animation: glitch 2s infinite;
         }
-        @keyframes pulse {
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+        }
+        
+        .typing-effect::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0; }
         }
-        .progress-bar {
+        
+        .agent-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+        
+        .agent-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            animation: rotate 3s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .status-bar-fill {
+            height: 100%;
             transition: width 0.5s ease;
+            position: relative;
         }
-        .typing-indicator::after {
-            content: '...';
-            animation: typing 1.5s infinite;
+        
+        .status-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 20px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5));
+            animation: shimmer 1.5s infinite;
         }
-        @keyframes typing {
-            0%, 100% { content: '.'; }
-            33% { content: '..'; }
-            66% { content: '...'; }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-20px); }
+            100% { transform: translateX(20px); }
         }
-        .slacking-warning {
-            animation: warning-pulse 1s infinite;
+        
+        .mission-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        @keyframes warning-pulse {
-            0%, 100% { border-color: #ef4444; }
-            50% { border-color: #f87171; }
+        
+        .mission-card:hover {
+            transform: translateX(10px);
+            box-shadow: -10px 0 30px rgba(0, 243, 255, 0.3);
+        }
+        
+        .reward-animation {
+            animation: reward 0.5s ease;
+        }
+        
+        @keyframes reward {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); filter: brightness(1.5); }
+            100% { transform: scale(1); }
+        }
+        
+        .slacking-alert {
+            animation: alert-pulse 0.5s infinite;
+        }
+        
+        @keyframes alert-pulse {
+            0%, 100% { 
+                border-color: var(--neon-red);
+                box-shadow: 0 0 20px var(--neon-red);
+            }
+            50% { 
+                border-color: #ff6666;
+                box-shadow: 0 0 40px var(--neon-red);
+            }
+        }
+        
+        .hologram {
+            background: linear-gradient(
+                180deg,
+                rgba(0, 243, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(0, 243, 255, 0.1) 100%
+            );
+            animation: hologram 2s ease-in-out infinite;
+        }
+        
+        @keyframes hologram {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
-<body class="text-gray-100 min-h-screen">
+<body class="text-gray-100 min-h-screen p-4">
     <!-- Header -->
-    <header class="glass sticky top-0 z-50 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="text-3xl">🦞</div>
+    <header class="cyber-panel neon-border rounded-lg p-4 mb-6">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="text-4xl glitch">🦞</div>
                 <div>
-                    <h1 class="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
-                        Agent Team 监控中心
+                    <h1 class="cyber-font text-2xl font-bold neon-text tracking-wider">
+                        NEON CITY // AGENT TEAM
                     </h1>
-                    <p class="text-xs text-gray-500 mono">ANTI-SLACKING SYSTEM v1.0</p>
+                    <p class="text-xs text-gray-500 cyber-font">
+                        [SYSTEM: ONLINE] [VERSION: 2.0.77] [ANTI-SLACKING: ACTIVE]
+                    </p>
                 </div>
             </div>
             <div class="flex items-center gap-6">
-                <div class="text-right">
-                    <div class="text-2xl font-bold text-green-400" id="total-tasks">0</div>
-                    <div class="text-xs text-gray-500">总任务数</div>
+                <div class="text-center">
+                    <div class="cyber-font text-3xl font-bold neon-text-green" id="system-credits">¥ 12,847</div>
+                    <div class="text-xs text-gray-500">团队资金</div>
                 </div>
-                <div class="text-right">
-                    <div class="text-2xl font-bold text-blue-400" id="active-agents">0</div>
-                    <div class="text-xs text-gray-500">活跃 Agent</div>
+                <div class="text-center">
+                    <div class="cyber-font text-3xl font-bold neon-text-pink" id="danger-level">LOW</div>
+                    <div class="text-xs text-gray-500">摸鱼威胁等级</div>
                 </div>
-                <div class="text-right">
-                    <div class="text-2xl font-bold text-red-400" id="slacking-agents">0</div>
-                    <div class="text-xs text-gray-500">疑似摸鱼</div>
-                </div>
-                <div class="glass px-4 py-2 rounded-lg">
+                <div class="cyber-panel neon-border px-4 py-2 rounded">
                     <div class="text-xs text-gray-400">系统时间</div>
-                    <div class="mono text-sm" id="system-time">--:--:--</div>
+                    <div class="cyber-font text-lg neon-text" id="system-time">00:00:00</div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        <!-- Alert Banner -->
-        <div id="alert-banner" class="hidden glass rounded-lg p-4 border-l-4 border-red-500 bg-red-500/10">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl">⚠️</span>
-                <div>
-                    <div class="font-bold text-red-400">检测到摸鱼行为！</div>
-                    <div class="text-sm text-gray-400" id="alert-message"></div>
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: Agent Roster -->
+        <div class="lg:col-span-3 space-y-4">
+            <div class="cyber-panel neon-border rounded-lg p-4">
+                <h2 class="cyber-font text-lg neon-text mb-4 flex items-center gap-2">
+                    <span>👤</span> AGENT 名册
+                </h2>
+                <div id="agent-roster" class="space-y-3">
+                    <!-- Agents will be rendered here -->
                 </div>
             </div>
         </div>
 
-        <!-- Dashboard Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Left: Team Overview -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Performance Chart -->
-                <div class="glass rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-lg font-semibold flex items-center gap-2">
-                            <span>📊</span> 团队效率趋势
-                        </h2>
-                        <div class="flex gap-2">
-                            <button onclick="setTimeRange('1h')" class="px-3 py-1 text-xs rounded bg-gray-800 hover:bg-gray-700 transition">1小时</button>
-                            <button onclick="setTimeRange('24h')" class="px-3 py-1 text-xs rounded bg-blue-600">24小时</button>
-                            <button onclick="setTimeRange('7d')" class="px-3 py-1 text-xs rounded bg-gray-800 hover:bg-gray-700 transition">7天</button>
-                        </div>
-                    </div>
-                    <canvas id="performanceChart" height="200"></canvas>
+        <!-- Center: Mission Control -->
+        <div class="lg:col-span-6 space-y-4">
+            <!-- Current Mission -->
+            <div class="cyber-panel neon-border-pink rounded-lg p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="cyber-font text-lg neon-text-pink flex items-center gap-2">
+                        <span>🎯</span> 当前任务
+                    </h2>
+                    <span class="cyber-font text-xs px-2 py-1 rounded bg-pink-500/20 text-pink-400 border border-pink-500/50">
+                        PRIORITY: HIGH
+                    </span>
                 </div>
-
-                <!-- Agent List -->
-                <div class="glass rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-lg font-semibold flex items-center gap-2">
-                            <span>👥</span> Agent 工作状态
-                        </h2>
-                        <div class="flex gap-2 text-xs">
-                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 pulse-dot"></span> 工作中</span>
-                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> 空闲</span>
-                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> 摸鱼嫌疑</span>
+                
+                <div id="current-mission" class="space-y-4">
+                    <div class="p-4 rounded bg-black/50 border border-pink-500/30">
+                        <div class="flex items-start gap-4">
+                            <div class="text-4xl">📡</div>
+                            <div class="flex-1">
+                                <div class="cyber-font text-lg text-pink-400 mb-2">入侵 EvoMap 数据核心</div>
+                                <div class="text-sm text-gray-400 mb-3">
+                                    需要破解 GEP-A2A 协议，提取高价值 Gene 数据。
+                                    预计耗时: 2小时 | 风险等级: 中等
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="flex-1">
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-gray-500">任务进度</span>
+                                            <span class="text-pink-400 cyber-font">67%</span>
+                                        </div>
+                                        <div class="status-bar rounded-full">
+                                            <div class="status-bar-fill bg-pink-500" style="width: 67%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="cyber-font text-xl text-green-400">+¥2,500</div>
+                                        <div class="text-xs text-gray-500">任务奖励</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div id="agent-list" class="space-y-3">
-                        <!-- Agents will be rendered here -->
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Real-time Stats -->
-            <div class="space-y-6">
-                <!-- Task Distribution -->
-                <div class="glass rounded-xl p-6">
-                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <span>🎯</span> 任务分布
-                    </h2>
-                    <canvas id="taskChart" height="200"></canvas>
+            <!-- Mission Queue -->
+            <div class="cyber-panel neon-border rounded-lg p-4">
+                <h2 class="cyber-font text-lg neon-text mb-4 flex items-center gap-2">
+                    <span>📋</span> 任务队列
+                </h2>
+                
+                <div id="mission-queue" class="space-y-2">
+                    <!-- Missions will be rendered here -->
                 </div>
+            </div>
 
-                <!-- Activity Log -->
-                <div class="glass rounded-xl p-6">
-                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <span>📝</span> 实时日志
-                    </h2>
-                    <div id="activity-log" class="space-y-2 max-h-80 overflow-y-auto mono text-xs">
-                        <!-- Logs will be rendered here -->
-                    </div>
+            <!-- Live Action Feed -->
+            <div class="cyber-panel neon-border-green rounded-lg p-4">
+                <h2 class="cyber-font text-lg neon-text-green mb-4 flex items-center gap-2">
+                    <span class="animate-pulse">📡</span> 实时行动 feed
+                </h2>
+                
+                <div id="action-feed" class="space-y-2 max-h-64 overflow-y-auto cyber-font text-sm">
+                    <!-- Actions will be rendered here --
                 </div>
+            </div>
+        </div>
 
-                <!-- Anti-Slacking Metrics -->
-                <div class="glass rounded-xl p-6">
-                    <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <span>🚨</span> 反摸鱼指标
-                    </h2>
-                    <div class="space-y-4">
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-400">键盘活跃度</span>
-                                <span class="text-green-400" id="keyboard-activity">98%</span>
-                            </div>
-                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-green-500 progress-bar" style="width: 98%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-400">任务完成率</span>
-                                <span class="text-blue-400" id="task-completion">87%</span>
-                            </div>
-                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-blue-500 progress-bar" style="width: 87%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-400">响应速度</span>
-                                <span class="text-purple-400" id="response-time">1.2s</span>
-                            </div>
-                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-purple-500 progress-bar" style="width: 92%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span class="text-gray-400">摸鱼检测</span>
-                                <span class="text-red-400" id="slacking-score">2%</span>
-                            </div>
-                            <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                                <div class="h-full bg-red-500 progress-bar" style="width: 2%"></div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Right: Stats & Rewards -->
+        <div class="lg:col-span-3 space-y-4">
+            <!-- Performance Rank -->
+            <div class="cyber-panel neon-border rounded-lg p-4">
+                <h2 class="cyber-font text-lg neon-text mb-4">🏆 绩效排行</h2>
+                
+                <div id="performance-rank" class="space-y-2">
+                    <!-- Rankings will be rendered here --
+                </div>
+            </div>
+
+            <!-- Recent Rewards -->
+            <div class="cyber-panel neon-border-green rounded-lg p-4">
+                <h2 class="cyber-font text-lg neon-text-green mb-4">💰 最近奖励</h2>
+                
+                <div id="recent-rewards" class="space-y-2">
+                    <!-- Rewards will be rendered here --
+                </div>
+            </div>
+
+            <!-- Slacking Alert -->
+            <div id="slacking-panel" class="cyber-panel neon-border-red rounded-lg p-4 hidden">
+                <h2 class="cyber-font text-lg neon-text-red mb-4 flex items-center gap-2">
+                    <span class="animate-pulse">🚨</span> 摸鱼警报
+                </h2>
+                
+                <div id="slacking-list" class="space-y-2">
+                    <!-- Alerts will be rendered here --
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        // Agent Team Data
+        // Cyberpunk Agent Data
         const agents = [
             {
                 id: 'agent-001',
-                name: '总指挥 (Commander)',
+                name: '总指挥',
+                codename: 'COMMANDER',
                 avatar: '🎯',
-                role: 'Supervisor',
+                role: '战术指挥官',
+                level: 15,
+                xp: 8750,
+                credits: 5240,
                 status: 'working',
-                task: '全局态势感知、任务拆解',
-                progress: 78,
-                lastActive: Date.now(),
-                tasksCompleted: 156,
-                efficiency: 95,
-                slackingScore: 0
+                currentTask: '入侵 EvoMap 数据核心',
+                taskProgress: 67,
+                efficiency: 98,
+                slackingScore: 0,
+                skills: ['战术规划', '团队协调', '风险评估'],
+                lastReward: 500
             },
             {
                 id: 'agent-002',
-                name: '军师 (Strategist)',
+                name: '军师',
+                codename: 'ORACLE',
                 avatar: '🧠',
-                role: 'Advisor',
+                role: '战略分析师',
+                level: 12,
+                xp: 6230,
+                credits: 3890,
                 status: 'working',
-                task: '策略分析、方案评估',
-                progress: 65,
-                lastActive: Date.now() - 120000,
-                tasksCompleted: 89,
-                efficiency: 88,
-                slackingScore: 5
+                currentTask: '分析敌方防御系统',
+                taskProgress: 45,
+                efficiency: 92,
+                slackingScore: 3,
+                skills: ['数据分析', '预测模型', '策略制定'],
+                lastReward: 350
             },
             {
                 id: 'agent-003',
-                name: '工程师 (Engineer)',
+                name: '工程师',
+                codename: 'GHOST',
                 avatar: '⚙️',
-                role: 'Executor',
+                role: '渗透专家',
+                level: 18,
+                xp: 12400,
+                credits: 8920,
                 status: 'working',
-                task: '代码实现、系统维护',
-                progress: 92,
-                lastActive: Date.now() - 30000,
-                tasksCompleted: 234,
-                efficiency: 97,
-                slackingScore: 0
+                currentTask: '破解 GEP-A2A 协议',
+                taskProgress: 89,
+                efficiency: 99,
+                slackingScore: 0,
+                skills: ['代码注入', '系统破解', '后门植入'],
+                lastReward: 800
             },
             {
                 id: 'agent-004',
-                name: '创作官 (Creator)',
+                name: '创作官',
+                codename: 'PHANTOM',
                 avatar: '✨',
-                role: 'Content',
-                status: 'idle',
-                task: '等待创作任务',
-                progress: 0,
-                lastActive: Date.now() - 300000,
-                tasksCompleted: 67,
-                efficiency: 82,
-                slackingScore: 15
+                role: '信息伪造师',
+                level: 8,
+                xp: 2340,
+                credits: 1560,
+                status: 'slacking',
+                currentTask: '生成伪装身份',
+                taskProgress: 12,
+                efficiency: 65,
+                slackingScore: 45,
+                skills: ['身份伪造', '文档制作', '社交工程'],
+                lastReward: 0
             },
             {
                 id: 'agent-005',
-                name: '智库 (Knowledge)',
+                name: '智库',
+                codename: 'ARCHIVE',
                 avatar: '📚',
-                role: 'Auditor',
+                role: '情报审核员',
+                level: 14,
+                xp: 7890,
+                credits: 4560,
                 status: 'working',
-                task: '知识审核、质量把关',
-                progress: 45,
-                lastActive: Date.now() - 60000,
-                tasksCompleted: 112,
-                efficiency: 91,
-                slackingScore: 3
+                currentTask: '验证数据完整性',
+                taskProgress: 78,
+                efficiency: 94,
+                slackingScore: 2,
+                skills: ['信息验证', '质量控制', '合规审查'],
+                lastReward: 420
             }
         ];
 
-        // Activity Log
-        const logs = [];
-        
-        function addLog(message, type = 'info') {
+        const missions = [
+            { id: 1, title: '破解防火墙', reward: 1200, difficulty: 'HARD', status: 'pending' },
+            { id: 2, title: '提取用户数据', reward: 800, difficulty: 'MEDIUM', status: 'pending' },
+            { id: 3, title: '植入监控程序', reward: 1500, difficulty: 'EXPERT', status: 'pending' },
+            { id: 4, title: '清理入侵痕迹', reward: 600, difficulty: 'EASY', status: 'pending' }
+        ];
+
+        const actions = [];
+
+        function addAction(agent, action, type = 'info') {
             const timestamp = new Date().toLocaleTimeString('zh-CN');
-            logs.unshift({ timestamp, message, type });
-            if (logs.length > 50) logs.pop();
-            renderLogs();
+            actions.unshift({ timestamp, agent, action, type });
+            if (actions.length > 20) actions.pop();
+            renderActions();
         }
 
-        function renderLogs() {
-            const container = document.getElementById('activity-log');
-            container.innerHTML = logs.map(log => {
+        function renderActions() {
+            const container = document.getElementById('action-feed');
+            container.innerHTML = actions.map(a => {
                 const colors = {
-                    info: 'text-gray-400',
+                    info: 'text-cyan-400',
                     success: 'text-green-400',
                     warning: 'text-yellow-400',
-                    error: 'text-red-400'
+                    danger: 'text-red-400',
+                    reward: 'text-pink-400'
                 };
-                return `<div class="${colors[log.type]}">[${log.timestamp}] ${log.message}</div>`;
+                return `<div class="${colors[a.type]} border-l-2 border-current pl-2">[${a.timestamp}] [${a.agent}] ${a.action}</div>`;
             }).join('');
         }
 
-        // Render Agent List
         function renderAgents() {
-            const container = document.getElementById('agent-list');
+            const container = document.getElementById('agent-roster');
             container.innerHTML = agents.map(agent => {
                 const statusColors = {
-                    working: 'bg-green-500',
-                    idle: 'bg-yellow-500',
-                    slacking: 'bg-red-500'
+                    working: 'neon-border-green',
+                    idle: 'neon-border',
+                    slacking: 'neon-border-red slacking-alert'
                 };
                 
                 const statusText = {
-                    working: '工作中',
-                    idle: '空闲',
-                    slacking: '摸鱼嫌疑!'
+                    working: '<span class="text-green-400">● 工作中</span>',
+                    idle: '<span class="text-cyan-400">○ 待机</span>',
+                    slacking: '<span class="text-red-400 animate-pulse">⚠ 摸鱼中!</span>'
                 };
 
-                const isSlacking = agent.slackingScore > 10;
-                const cardClass = isSlacking ? 'slacking-warning border-2 border-red-500' : '';
-                
                 return `
-                    <div class="agent-card glass rounded-lg p-4 ${cardClass}">
-                        <div class="flex items-center gap-4">
-                            <div class="text-3xl">${agent.avatar}</div>
+                    <div class="cyber-panel ${statusColors[agent.status]} rounded-lg p-3 mission-card">
+                        <div class="flex items-center gap-3">
+                            <div class="agent-avatar ${agent.status === 'slacking' ? 'slacking-alert' : ''}"
+                                 style="background: linear-gradient(135deg, rgba(0,243,255,0.2), rgba(157,0,255,0.2));">
+                                ${agent.avatar}
+                            </div>
                             <div class="flex-1">
                                 <div class="flex items-center gap-2">
-                                    <span class="font-semibold">${agent.name}</span>
-                                    <span class="text-xs px-2 py-0.5 rounded bg-gray-700 text-gray-400">${agent.role}</span>
-                                    <span class="w-2 h-2 rounded-full ${statusColors[agent.status]} ${agent.status === 'working' ? 'pulse-dot' : ''}"></span>
-                                    <span class="text-xs ${isSlacking ? 'text-red-400 font-bold' : 'text-gray-500'}">${statusText[agent.status]}</span>
+                                    <span class="cyber-font font-bold text-white">${agent.name}</span>
+                                    <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 cyber-font">Lv.${agent.level}</span>
                                 </div>
-                                <div class="text-sm text-gray-400 mt-1">${agent.task}</div>
+                                <div class="text-xs text-gray-500 cyber-font">${agent.codename} // ${agent.role}</div>
+                                <div class="mt-2 text-xs">${statusText[agent.status]}</div>
+                                
                                 <div class="mt-2">
                                     <div class="flex justify-between text-xs mb-1">
                                         <span class="text-gray-500">任务进度</span>
-                                        <span class="text-gray-400">${agent.progress}%</span>
+                                        <span class="cyber-font ${agent.status === 'slacking' ? 'text-red-400' : 'text-cyan-400'}">${agent.taskProgress}%</span>
                                     </div>
-                                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                                        <div class="h-full ${isSlacking ? 'bg-red-500' : 'bg-blue-500'} progress-bar" style="width: ${agent.progress}%"></div>
+                                    <div class="status-bar rounded-full">
+                                        <div class="status-bar-fill ${agent.status === 'slacking' ? 'bg-red-500' : 'bg-cyan-500'}" 
+                                             style="width: ${agent.taskProgress}%"></div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="text-right text-xs space-y-1">
-                                <div class="text-gray-500">效率: <span class="text-green-400">${agent.efficiency}%</span></div>
-                                <div class="text-gray-500">完成: <span class="text-blue-400">${agent.tasksCompleted}</span></div>
-                                ${isSlacking ? '<div class="text-red-400 font-bold">摸鱼指数: ' + agent.slackingScore + '%</div>' : ''}
+                                
+                                <div class="mt-2 flex justify-between text-xs">
+                                    <span class="text-gray-500">效率: <span class="text-green-400">${agent.efficiency}%</span></span>
+                                    <span class="text-gray-500">资金: <span class="text-yellow-400 cyber-font">¥${agent.credits}</span></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
-
-            // Update stats
-            document.getElementById('active-agents').textContent = agents.filter(a => a.status === 'working').length;
-            document.getElementById('slacking-agents').textContent = agents.filter(a => a.slackingScore > 10).length;
         }
 
-        // Charts
-        let performanceChart, taskChart;
-
-        function initCharts() {
-            // Performance Chart
-            const perfCtx = document.getElementById('performanceChart').getContext('2d');
-            performanceChart = new Chart(perfCtx, {
-                type: 'line',
-                data: {
-                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Now'],
-                    datasets: agents.map((agent, i) => ({
-                        label: agent.name,
-                        data: Array(7).fill(0).map(() => Math.floor(Math.random() * 40) + 60),
-                        borderColor: ['#22c55e', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'][i],
-                        backgroundColor: 'transparent',
-                        tension: 0.4
-                    }))
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' } },
-                        x: { grid: { color: 'rgba(255,255,255,0.1)' } }
-                    }
-                }
-            });
-
-            // Task Distribution Chart
-            const taskCtx = document.getElementById('taskChart').getContext('2d');
-            taskChart = new Chart(taskCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['已完成', '进行中', '待分配', '阻塞中'],
-                    datasets: [{
-                        data: [45, 23, 12, 5],
-                        backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af' } } }
-                }
-            });
+        function renderMissions() {
+            const container = document.getElementById('mission-queue');
+            container.innerHTML = missions.map(m => {
+                const difficultyColors = {
+                    EASY: 'text-green-400 border-green-500/50',
+                    MEDIUM: 'text-yellow-400 border-yellow-500/50',
+                    HARD: 'text-orange-400 border-orange-500/50',
+                    EXPERT: 'text-red-400 border-red-500/50'
+                };
+                
+                return `
+                    <div class="cyber-panel border border-cyan-500/30 rounded p-3 mission-card">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xl">🎯</span>
+                                <div>
+                                    <div class="cyber-font text-cyan-400">${m.title}</div>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-xs px-2 py-0.5 rounded border ${difficultyColors[m.difficulty]}">${m.difficulty}</span>
+                                        <span class="text-xs text-gray-500">奖励: <span class="text-yellow-400 cyber-font">¥${m.reward}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="px-4 py-2 rounded bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 cyber-font text-sm hover:bg-cyan-500/30 transition"
+                                onclick="acceptMission(${m.id})">
+                                接受
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
-        // Update System Time
+        function renderPerformanceRank() {
+            const sorted = [...agents].sort((a, b) => b.efficiency - a.efficiency);
+            const container = document.getElementById('performance-rank');
+            container.innerHTML = sorted.map((agent, i) => {
+                const medals = ['🥇', '🥈', '🥉'];
+                const rank = i < 3 ? medals[i] : `#${i + 1}`;
+                return `
+                    <div class="flex items-center gap-3 p-2 rounded ${i === 0 ? 'bg-yellow-500/10 border border-yellow-500/30' : 'bg-black/30'}">
+                        <span class="cyber-font text-lg ${i < 3 ? 'text-yellow-400' : 'text-gray-500'}">${rank}</span>
+                        <span class="text-xl">${agent.avatar}</span>
+                        <div class="flex-1">
+                            <div class="text-sm text-white">${agent.name}</div>
+                            <div class="text-xs text-gray-500">Lv.${agent.level} // ${agent.codename}</div>
+                        </div>
+                        <div class="cyber-font text-cyan-400">${agent.efficiency}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderRewards() {
+            const container = document.getElementById('recent-rewards');
+            const recentRewards = agents.filter(a => a.lastReward > 0).slice(0, 5);
+            container.innerHTML = recentRewards.map(agent => `
+                <div class="flex items-center gap-3 p-2 rounded bg-green-500/10 border border-green-500/30">
+                    <span class="text-xl">${agent.avatar}</span>
+                    <div class="flex-1">
+                        <div class="text-sm text-white">${agent.name}</div>
+                        <div class="text-xs text-gray-500">完成任务奖励</div>
+                    </div>
+                    <div class="cyber-font text-green-400 text-lg">+¥${agent.lastReward}</div>
+                </div>
+            `).join('');
+        }
+
+        function checkSlacking() {
+            const slackers = agents.filter(a => a.slackingScore > 20);
+            const panel = document.getElementById('slacking-panel');
+            const list = document.getElementById('slacking-list');
+            
+            if (slackers.length > 0) {
+                panel.classList.remove('hidden');
+                list.innerHTML = slackers.map(agent => `
+                    <div class="flex items-center gap-3 p-3 rounded bg-red-500/10 border border-red-500/50 slacking-alert">
+                        <span class="text-2xl">${agent.avatar}</span>
+                        <div class="flex-1">
+                            <div class="text-red-400 font-bold">${agent.name} // ${agent.codename}</div>
+                            <div class="text-xs text-gray-400">摸鱼指数: ${agent.slackingScore}% | 已空闲 ${Math.floor(agent.slackingScore / 5)} 分钟</div>
+                        </div>
+                        <button class="px-3 py-1 rounded bg-red-500/20 border border-red-500 text-red-400 text-xs hover:bg-red-500/30 transition"
+                            onclick="punishSlacker('${agent.id}')">
+                            处罚
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function acceptMission(missionId) {
+            const mission = missions.find(m => m.id === missionId);
+            addAction('SYSTEM', `任务 "${mission.title}" 已被接受`, 'info');
+        }
+
+        function punishSlacker(agentId) {
+            const agent = agents.find(a => a.id === agentId);
+            agent.credits = Math.max(0, agent.credits - 500);
+            agent.slackingScore = 0;
+            agent.status = 'working';
+            addAction('SYSTEM', `${agent.name} 因摸鱼被扣除 ¥500`, 'danger');
+            renderAgents();
+            checkSlacking();
+        }
+
         function updateTime() {
             document.getElementById('system-time').textContent = 
                 new Date().toLocaleTimeString('zh-CN');
         }
 
-        // Simulate Activity
-        function simulateActivity() {
-            // Randomly update agent progress
+        // Simulate activity
+        function simulate() {
             agents.forEach(agent => {
-                if (agent.status === 'working' && Math.random() > 0.7) {
-                    agent.progress = Math.min(100, agent.progress + Math.floor(Math.random() * 5));
-                    if (agent.progress >= 100) {
-                        agent.progress = 0;
+                if (agent.status === 'working' && Math.random() > 0.8) {
+                    agent.taskProgress = Math.min(100, agent.taskProgress + Math.floor(Math.random() * 3));
+                    if (agent.taskProgress >= 100) {
+                        agent.taskProgress = 0;
                         agent.tasksCompleted++;
-                        addLog(`${agent.name} 完成了任务 #${agent.tasksCompleted}`, 'success');
+                        agent.xp += 100;
+                        agent.credits += Math.floor(Math.random() * 300) + 200;
+                        agent.lastReward = Math.floor(Math.random() * 300) + 200;
+                        addAction(agent.name, `完成任务 #${agent.tasksCompleted}，获得 ¥${agent.lastReward}`, 'reward');
+                        
+                        // Level up check
+                        if (agent.xp >= agent.level * 1000) {
+                            agent.level++;
+                            addAction(agent.name, `升级！当前等级 Lv.${agent.level}`, 'success');
+                        }
                     }
                 }
                 
-                // Simulate slacking detection
-                if (agent.status === 'idle' && Math.random() > 0.8) {
+                if (agent.status === 'idle' && Math.random() > 0.7) {
                     agent.slackingScore = Math.min(100, agent.slackingScore + 5);
-                    if (agent.slackingScore > 10 && agent.slackingScore <= 15) {
-                        addLog(`⚠️ 检测到 ${agent.name} 可能有摸鱼行为！`, 'warning');
-                        document.getElementById('alert-banner').classList.remove('hidden');
-                        document.getElementById('alert-message').textContent = 
-                            `${agent.name} 空闲时间超过阈值，摸鱼指数 ${agent.slackingScore}%`;
+                    if (agent.slackingScore > 20 && agent.slackingScore <= 25) {
+                        agent.status = 'slacking';
+                        addAction(agent.name, '⚠️ 检测到摸鱼行为！', 'danger');
                     }
                 }
             });
-
-            // Update total tasks
-            document.getElementById('total-tasks').textContent = 
-                agents.reduce((sum, a) => sum + a.tasksCompleted, 0);
-
+            
             renderAgents();
-        }
-
-        // Set Time Range
-        function setTimeRange(range) {
-            addLog(`切换到 ${range} 时间范围`, 'info');
-            // Update chart data based on range
+            renderPerformanceRank();
+            renderRewards();
+            checkSlacking();
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            initCharts();
             renderAgents();
-            updateTime();
+            renderMissions();
+            renderPerformanceRank();
+            renderRewards();
+            checkSlacking();
             
-            // Initial logs
-            addLog('系统启动，Agent Team 监控开始', 'info');
-            addLog('总指挥已接管任务分配', 'success');
-            addLog('所有 Agent 已上线', 'success');
+            addAction('SYSTEM', '【NEON CITY】Agent Team 系统启动', 'info');
+            addAction('SYSTEM', '反摸鱼系统已激活', 'success');
+            addAction('SYSTEM', '当前任务: 入侵 EvoMap 数据核心', 'info');
             
-            // Intervals
             setInterval(updateTime, 1000);
-            setInterval(simulateActivity, 3000);
+            setInterval(simulate, 2000);
         });
     </script>
 </body>
